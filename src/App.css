@@ -1,3 +1,10 @@
+
+h1 {
+  font-family: 'SEGA LOGO FONT';
+  font-weight: 200;
+  color: #0ccac4;
+}
+
 .App {
   text-align: center;
 }
@@ -35,4 +42,27 @@
   to {
     transform: rotate(360deg);
   }
+}
+.content {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.button {
+  border-radius: 4px;
+  background-color: #0466D4;
+  border: none;
+  color: #FFFFFF;
+  display: block;
+  text-align: center;
+  font-size: 28px;
+  padding: 20px;
+  width: 200px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin: auto;
+  position: relative;
 }
