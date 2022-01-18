@@ -2,81 +2,78 @@ import logo from './logo.svg';
 import './App.css';
 import React, { Component } from 'react';
 import ReactLoading from 'react-loading';
-import { DateRangePicker } from 'react-date-range';
-import 'react-date-range/dist/styles.css'; // main css file
-import 'react-date-range/dist/theme/default.css'; // theme css file
 import ImageCardList from './components/ImageCardList';
-import Scroll from './components/Scroll';
+import DateSelect from './components/DateSelect';
 
 const apiKey = 'OaSQgn5r30pCyS5f8MiwPufbVaoGRCxKlfTzNPmG';
+const currentDate = new Date(new Date().getTime() - Math.abs(new Date().getTimezoneOffset()*60000)).toISOString().slice(0, 10);
+
 const initialState = {
-    images: [],
-    startDate: '',
-    endDate: '',
-    route: 'home'
+  images: [],
+  route: 'home',
+  datePickerStart: new Date(),
+  datePickerEnd: new Date(),
+  startDate: currentDate,
+  endDate: currentDate
 }
 
 class App extends Component {
-    constructor(){
-        super();
-        this.state = initialState;
+  constructor(){
+    super();
+    this.state = initialState;
+  }
+
+  handleRetrieveImages = () =>{
+    if(this.state.datePickerStart.getTime() > this.state.datePickerEnd.getTime() || this.state.datePickerEnd.getTime() > new Date().getTime()){
+      alert("Please enter a valid date range");
+      const {datePickerStart, datePickerEnd, startDate, endDate} = initialState;
+      this.setState({datePickerStart: datePickerStart, datePickerEnd: datePickerEnd, startDate: startDate, endDate: endDate});
     }
-
-    handleRetrieveImages = () =>{
-        this.setState({ route: 'displayImages'});
-        fetch(`https://api.nasa.gov/planetary/apod?api_key=${apiKey}&start_date=2017-07-08&end_date=2018-01-01`)
-            .then(response=>response.json())
-            .then(result=>{
-                this.setState({ images: result});
-                console.log(this.state.images);
-            });
+    else{
+      this.setState({ route: 'displayImages', images: []});
+      fetch(`https://api.nasa.gov/planetary/apod?api_key=${apiKey}&start_date=${this.state.startDate}&end_date=${this.state.endDate}`)
+        .then(response=>response.json())
+        .then(result=>{
+          this.setState({ images: result});
+        }).catch(err=> alert('ERROR retrieving images. Please ensure the inputted dates are within range'));
     }
+  }
 
-    handleSelect(ranges){
-        console.log(ranges);
-    // {
-    //   selection: {
-    //     startDate: [native Date Object],
-    //     endDate: [native Date Object],
-    //   }
-    // }
+  handleSelectDate = (indicator,event) => {
+    let date = (new Date(event.getTime() - Math.abs(event.getTimezoneOffset()*60000))).toISOString().slice(0, 10);
+    if(indicator === 'start'){
+      this.setState({ datePickerStart: event, startDate: date });
     }
+    else{
+      this.setState({ datePickerEnd: event, endDate: date });
+    }
+  }
 
-
-
-    render(){
-        const selectionRange = {
-            startDate: new Date(),
-            endDate: new Date(),
-            key: 'selection',
+  render(){
+    return (
+      <div className='tc'>
+        <h1> Spacestagram </h1>
+        <div className="flexbox-container">
+          <DateSelect 
+            datePickerStart={this.state.datePickerStart} 
+            datePickerEnd={this.state.datePickerEnd} 
+            handleSelectDate={this.handleSelectDate}
+            handleRetrieveImages={this.handleRetrieveImages}
+          />
+        </div>
+        {this.state.images.length === 0 && this.state.route === 'displayImages' ? 
+          <div>
+            <ReactLoading color = {"#197DE7"} type={"spinningBubbles"} height={'10%'} width={'10%'} />
+            <h2> LOADING... </h2>
+          </div>
+          :
+          <div className="content">
+            <ImageCardList images={this.state.images} />
+          </div>
         }
-
-        return (
-            <div className='tc'>
-                <h1> Spacestagram </h1>
-                { this.state.route === 'displayImages' ? 
-                    (
-                        this.state.images.length === 0 ? 
-                        <div >
-                            <ReactLoading color = {"#197DE7"} type={"spinningBubbles"} height={'10%'} width={'10%'} />
-                            <h2> LOADING </h2>
-                        </div>
-                        :
-                        <div className="content">
-                            <Scroll>
-                                <ImageCardList images={this.state.images} />
-                            </Scroll>
-                        </div>
-                    )
-                :
-                    <div className="content">
-                        <DateRangePicker ranges = {[selectionRange]} onChange = {this.handleSelect} />
-                        <button onClick = {this.handleRetrieveImages}> Retrieve Images </button>
-                    </div>
-                }
-            </div>
-        );
-    }
+      </div>
+    );
+  }
 
 }
 

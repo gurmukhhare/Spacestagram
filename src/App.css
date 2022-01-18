@@ -51,7 +51,7 @@ h1 {
   transform: translate(-50%, -50%);
 }
 
-.button {
+button {
   border-radius: 4px;
   background-color: #0466D4;
   border: none;
@@ -65,4 +65,10 @@ h1 {
   cursor: pointer;
   margin: auto;
   position: relative;
+}
+
+.flexbox-container {
+    display: flex;
+    flex-direction: row;
+    row-gap: 10px;
 }
