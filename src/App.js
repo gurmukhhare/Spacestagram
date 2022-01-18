@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import React, { Component } from 'react';
 import ReactLoading from 'react-loading';
@@ -6,11 +5,11 @@ import ImageCardList from './components/ImageCardList';
 import DateSelect from './components/DateSelect';
 
 const apiKey = 'OaSQgn5r30pCyS5f8MiwPufbVaoGRCxKlfTzNPmG';
-const currentDate = new Date(new Date().getTime() - Math.abs(new Date().getTimezoneOffset()*60000)).toISOString().slice(0, 10);
+const currentDate = new Date(new Date().getTime() - Math.abs(new Date().getTimezoneOffset()*60000)).toISOString().slice(0, 10); //today's date adjusted for timezone
 
+//object defining initial state
 const initialState = {
   images: [],
-  route: 'home',
   datePickerStart: new Date(),
   datePickerEnd: new Date(),
   startDate: currentDate,
@@ -23,6 +22,12 @@ class App extends Component {
     this.state = initialState;
   }
 
+  //load image of the day on componenet creation
+  componentDidMount(){
+    this.handleRetrieveImages();
+  }
+
+  //method to first validate selected date range and retrieve images from NASA API if valid
   handleRetrieveImages = () =>{
     if(this.state.datePickerStart.getTime() > this.state.datePickerEnd.getTime() || this.state.datePickerEnd.getTime() > new Date().getTime()){
       alert("Please enter a valid date range");
@@ -30,7 +35,7 @@ class App extends Component {
       this.setState({datePickerStart: datePickerStart, datePickerEnd: datePickerEnd, startDate: startDate, endDate: endDate});
     }
     else{
-      this.setState({ route: 'displayImages', images: []});
+      this.setState({ images: []});
       fetch(`https://api.nasa.gov/planetary/apod?api_key=${apiKey}&start_date=${this.state.startDate}&end_date=${this.state.endDate}`)
         .then(response=>response.json())
         .then(result=>{
@@ -39,6 +44,7 @@ class App extends Component {
     }
   }
 
+  //handle user inputs for date picker component
   handleSelectDate = (indicator,event) => {
     let date = (new Date(event.getTime() - Math.abs(event.getTimezoneOffset()*60000))).toISOString().slice(0, 10);
     if(indicator === 'start'){
@@ -52,25 +58,28 @@ class App extends Component {
   render(){
     return (
       <div className='tc'>
-        <h1> Spacestagram </h1>
-        <div className="flexbox-container">
-          <DateSelect 
+        <div>
+          <h1> Spacestagram </h1>
+        </div>
+        <div className="selection">
+          <DateSelect
             datePickerStart={this.state.datePickerStart} 
             datePickerEnd={this.state.datePickerEnd} 
             handleSelectDate={this.handleSelectDate}
             handleRetrieveImages={this.handleRetrieveImages}
           />
         </div>
-        {this.state.images.length === 0 && this.state.route === 'displayImages' ? 
-          <div>
-            <ReactLoading color = {"#197DE7"} type={"spinningBubbles"} height={'10%'} width={'10%'} />
-            <h2> LOADING... </h2>
-          </div>
-          :
-          <div className="content">
-            <ImageCardList images={this.state.images} />
-          </div>
-        }
+        <div>
+          {this.state.images.length === 0 ? 
+            <div className="loading">
+              <ReactLoading color = {"#FFFFFF"} type={"spinningBubbles"} height={'10%'} width={'10%'} />
+            </div>
+            :
+            <div className="content">
+              <ImageCardList images={this.state.images} />
+            </div>
+          }
+        </div>
       </div>
     );
   }

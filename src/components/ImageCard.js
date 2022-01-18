@@ -15,14 +15,12 @@ class ImageCard extends Component{
   render(){
     let btnString = this.state.liked? "Unlike" : "Like";
     return (
-      <div className='tc grow bg-light-green br3 pa3 ma2 dib bw2 shadow-5'>
-        <img alt='image' src={this.props.source} width="400" height="300" />
-        <div>
+      <div className='bg-near-white br3 pa3 ma2 bw2 shadow-5'>
+        <img alt='NASAImage' src={this.props.source} width="100%" height="auto" />
           <h2>{this.props.title}</h2>
           <h5>{this.props.date}</h5>
           <p>{this.props.description}</p>
-        </div>
-        <button onClick={this.toggleLike} style={this.state.liked? {color: 'red'} : {color: 'white'}}> {btnString} </button>
+        <button onClick={this.toggleLike} className={this.state.liked ? "likedBtn" : "unlikedBtn"}> {btnString} </button>
       </div>
      );
   }

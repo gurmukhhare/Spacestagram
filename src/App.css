@@ -2,7 +2,7 @@
 h1 {
   font-family: 'SEGA LOGO FONT';
   font-weight: 200;
-  color: #0ccac4;
+  color: white;
 }
 
 .App {
@@ -18,6 +18,10 @@ h1 {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
   }
+}
+
+img {
+  border-radius: 2%;
 }
 
 .App-header {
@@ -46,29 +50,59 @@ h1 {
 .content {
   position: absolute;
   left: 50%;
-  top: 50%;
-  -webkit-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%);
+  transform: translate(-50%);
 }
 
-button {
-  border-radius: 4px;
-  background-color: #0466D4;
-  border: none;
-  color: #FFFFFF;
+.unlikedBtn {
+  width: 150px;
+  height: 50px;
   display: block;
   text-align: center;
-  font-size: 28px;
-  padding: 20px;
-  width: 200px;
-  transition: all 0.5s;
-  cursor: pointer;
-  margin: auto;
+  border:none;
+  border:solid 2px blue;
+  border-radius: 5px;
+  background: rgba(255, 255, 255,0);
+  color:blue;
+  font-size: 20px;
   position: relative;
+  transition: all .3s ease-in-out;
 }
 
-.flexbox-container {
-    display: flex;
-    flex-direction: row;
-    row-gap: 10px;
+.unlikedBtn:hover {
+  cursor: pointer;
+  transform: scale(1.1);
 }
+
+.selection {
+  min-width:420px;
+  width: 50%;
+  position: relative;
+  left: 25%;
+}
+
+.loading {
+  display: flex; 
+  align-items: center; 
+  justify-content: center;
+  padding-top: 10%;
+}
+
+.likedBtn{
+  width: 150px;
+  height: 50px;
+  display: block;
+  text-align: center;
+  border:none;
+  border:solid 2px black;
+  border-radius: 5px;
+  background: rgba(255, 255, 255,0);
+  font-size: 20px;
+  position: relative;
+  background:black;
+  background: #0466D4;
+  color:white; 
+  cursor: pointer;
+  transition: all .3s ease-in-out;
+}
+
