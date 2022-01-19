@@ -1,5 +1,6 @@
 # Spacestagram
 ### Live Link: https://spacestagram--app.herokuapp.com/
+(Please give it a few moments to load as Heroku puts apps to sleep after 30 minutes of inactivity)
 ## Description
 My version of Spacestagram utilizes NASA's Astronomy Picture of the Day (APOD) API to load and display images. The features currently implemented in the first iteration include:
 * Chronological feed from NASA's API
