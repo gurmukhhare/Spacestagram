@@ -58,9 +58,9 @@ class App extends Component {
   render(){
     return (
       <div className='tc'>
-        <div>
+        <header>
           <h1> Spacestagram </h1>
-        </div>
+        </header>
         <div className="selection">
           <DateSelect
             datePickerStart={this.state.datePickerStart} 
@@ -75,9 +75,9 @@ class App extends Component {
               <ReactLoading color = {"#FFFFFF"} type={"spinningBubbles"} height={'10%'} width={'10%'} />
             </div>
             :
-            <div className="content">
+            <main className="content">
               <ImageCardList images={this.state.images} />
-            </div>
+            </main>
           }
         </div>
       </div>
