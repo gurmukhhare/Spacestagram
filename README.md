@@ -9,6 +9,6 @@ My version of Spacestagram utilizes NASA's Astronomy Picture of the Day (APOD) A
 * Pop up to alert the user if the entered date range is invalid
 
 ## Technical Decisions
-To implement this app, I utilized the React framework for an optimized single page user interface. As mentioned in Shopify's requirements doc, I used semantic HTML where possible by leveraging semantic tags such as `<main>`, `<header>`, and alt properties for `<img>` tags. Currently, my application has two stateful smart components (App and ImageCard both contain state) and two functional components (ImageCardList and DateSelect). 
+To implement this app, I utilized the React framework for an optimized single page user interface. As mentioned in Shopify's requirements doc, I used semantic HTML where possible by leveraging semantic tags such as `<main>`, `<header>`, and alt properties for `<img>` tags. Currently, my application has two stateful smart components (App and ImageCard) and two functional components (ImageCardList and DateSelect). 
 
 
